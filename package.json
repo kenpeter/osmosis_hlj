@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "cron": "^1.2.1",
+    "libxmljs-dom": "^0.0.8",
+    "mongoose": "^4.9.0",
+    "needle": "^1.5.2",
+    "osmosis": "^1.1.2"
+  },
+  "scripts": {
+		"start": "forever start -a -l forever.log -e err.log ./osmosis_seek.js",
+    "stop": "forever stop ./osmosis_seek.js"
+  }
+}
