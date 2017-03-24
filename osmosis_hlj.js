@@ -67,8 +67,8 @@ function run() {
                   let fileName = getImageFilename(tmpImg);
 
                   // Hak
-                  let singImgUrl = 'http://d3toummn8j74h.cloudfront.net/ban/' + fileName;
-                  productObj.imgs.push(singImgUrl);
+                  //let singImgUrl = 'http://d3toummn8j74h.cloudfront.net/ban/' + fileName;
+                  productObj.imgs.push(fileName);
                   if(isAssignProductId) {
                     let tmpProdId = getProductIdByPath(tmpImg);
                     productObj.productId = tmpProdId;
