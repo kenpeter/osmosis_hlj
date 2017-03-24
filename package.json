@@ -7,7 +7,6 @@
     "osmosis": "^1.1.2"
   },
   "scripts": {
-		"start": "forever start -a -l forever.log -e err.log ./osmosis_seek.js",
-    "stop": "forever stop ./osmosis_seek.js"
+		"start": "node ./osmosis_hlj.js"
   }
 }

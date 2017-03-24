@@ -2,31 +2,26 @@ var mongodb = require('./connect');
 
 var Schema = mongodb.mongoose.Schema;
 
-var JobSchema = new Schema({
-  jobId: String,
-  title:  String,
-  url: String,
-  category: String,
-  advertiser: String,
+var ProductSchema = new Schema({
+  title: String,
+  price: String,
+  productId: String,
+  productUrl: String,
 
-  description: String,
-  content: String,
-  employmentType: String,
-	addressLocal: String,
-
-	addressRegion: String,
-  datePosted: { type: Date, default: Date.now },
+  imgs: [String],
+  dateCreated: { type: Date, default: Date.now },
+  dateUpdated: { type: Date, default: Date.now },
 });
 
-var JobDAO = function(){};
-var Job = mongodb.mongoose.model('Job', JobSchema);
+var ProductDAO = function(){};
+var Product = mongodb.mongoose.model('Product', ProductSchema);
 
-JobDAO.prototype =  {
-  constructor: JobDAO,
+ProductDAO.prototype =  {
+  constructor: ProductDAO,
 
   save: function(obj){
     return new Promise((resolve, reject) => {
-      var instance = new Job(obj);
+      var instance = new Product(obj);
         instance.save((err) => {
           if(err) return reject(err);
           resolve();
@@ -36,16 +31,17 @@ JobDAO.prototype =  {
 
     delete: function(query) {
       return new Promise((resolve, reject) => {
-        Job.remove(query, (err, data) => {
+        Product.remove(query, (err, data) => {
           if(err) return reject(err);
           resolve(data);
         });
       });
-    },
+    }
 
+    /*
     search: function(query){
       return new Promise((resolve, reject) => {
-        Job.find(query, (err, data) => {
+        Product.find(query, (err, data) => {
           if(err) return reject(err);
           var result = [];
           if(data) {
@@ -65,6 +61,7 @@ JobDAO.prototype =  {
         });
       });
     }
+    */
 }
 
-module.exports = JobDAO;
+module.exports = ProductDAO;
