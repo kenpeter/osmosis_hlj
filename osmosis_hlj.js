@@ -75,8 +75,6 @@ function run() {
                     productObj.productUrl = 'http://hlj.com/product/' + tmpProdId;
                     isAssignProductId = false;
                   }
-
-
                 }
                 else {
 
@@ -85,7 +83,6 @@ function run() {
               else {
 
               }
-
               resolve1();
 
             });
@@ -122,7 +119,7 @@ function run() {
                             console.log(`save: ${savePath}`);
                             resolve2();
                           }
-                        });
+                        }); // end fs write
 
                       });
                   }); // end promise
@@ -169,6 +166,6 @@ productDAO
     return run();
   })
   .then(() => {
-    console.log('-- all done');
+    console.log('-- all done --');
     process.exit(0);
   });
