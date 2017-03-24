@@ -1,6 +1,10 @@
-var osmosis = require('osmosis');
-var Promise = require('bluebird');
-var CronJob = require('cron').CronJob;
+const osmosis = require('osmosis');
+const Promise = require('bluebird');
+const CronJob = require('cron').CronJob;
+const axios = require('axios');
+
+const fs = require('fs');
+const path = require('path');
 var ProductDAO = require('./model/product');
 const productDAO = new ProductDAO();
 
@@ -95,9 +99,47 @@ function run() {
             productDAO
               .save(productObj)
               .then(() => {
-                resolve();
+                // Now write to file
+                Promise.each(productObj.imgs, (imgUrl) => {
+                  return new Promise((resolve2, reject2) => {
+                    // imgUrl === d3toummn8j74h.cloudfront.net/ban/ban965506_box_1485108727.jpg?v=1485108727
+                    let theImgUrl = 'http://' + imgUrl;
+                    axios
+                      .get(theImgUrl, {responseType: 'arraybuffer'})
+                      .then((imgData) => {
+                        let tmpArr = imgUrl.split('/');
+                        let lastElement = tmpArr[tmpArr.length-1];
+                        let fileNameArr = lastElement.split('?');
+                        let fileName = fileNameArr[0];
+
+                        let productImgDir = path.resolve(__dirname, 'imgs', productId);
+                        if (!fs.existsSync(productImgDir)) {
+                          fs.mkdirSync(productImgDir);
+                        }
+
+                        let savePath = path.resolve(__dirname, 'imgs', productId, fileName);
+
+                        fs.writeFile(savePath, imgData.data, "binary", (err) => {
+                          if(err) {
+                            console.log(err);
+                          }
+                          else {
+                            console.log(`save: ${savePath}`);
+                            resolve2();
+                          }
+                        });
+
+                      });
+                  });
+                })
+                .then(() => {
+                  console.log('all image save for a product');
+                  resolve();
+                });
+
+
               });
-              
+
           });
         });
     });

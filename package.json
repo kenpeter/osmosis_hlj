@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "axios": "^0.15.3",
     "cron": "^1.2.1",
     "libxmljs-dom": "^0.0.8",
     "mongoose": "^4.9.0",
@@ -7,6 +8,6 @@
     "osmosis": "^1.1.2"
   },
   "scripts": {
-		"start": "node ./osmosis_hlj.js"
+    "start": "node ./osmosis_hlj.js"
   }
 }
