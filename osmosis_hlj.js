@@ -95,7 +95,8 @@ function run() {
                 console.log('---------- single page ----------');
                 console.log('productObj is saved@');
 
-                Promise.each(productObj.imgs, (imgUrl) => {
+                Promise.each(productObj.imgs, (imgFilename) => {
+									let imgUrl = 'http://d3toummn8j74h.cloudfront.net/ban/' + imgFilename;
                   return new Promise((resolve2, reject2) => {
                     axios
                       .get(imgUrl, {responseType: 'arraybuffer'})
