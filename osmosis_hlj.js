@@ -96,10 +96,41 @@ function run() {
               .save(productObj)
               .then(() => {
                 console.log('---------- single page ----------');
-                //console.log(productObj);
                 console.log('productObj is saved@');
 
-                resolve()
+                Promise.each(productObj.imgs, (imgUrl) => {
+                  return new Promise((resolve2, reject2) => {
+                    axios
+                      .get(imgUrl, {responseType: 'arraybuffer'})
+                      .then((imgData) => {
+                        let tmpArr = imgUrl.split('/');
+                        let fileName = tmpArr[tmpArr.length-1];
+
+                        // dir
+                        let productImgDir = path.resolve(__dirname, 'imgs', productObj.productId);
+                        if (!fs.existsSync(productImgDir)) {
+                          fs.mkdirSync(productImgDir);
+                        }
+
+                        // write path
+                        let savePath = path.resolve(__dirname, 'imgs', productObj.productId, fileName);
+                        fs.writeFile(savePath, imgData.data, "binary", (err) => {
+                          if(err) {
+                            console.log(err);
+                          }
+                          else {
+                            console.log(`save: ${savePath}`);
+                            resolve2();
+                          }
+                        });
+
+                      });
+                  }); // end promise
+                }) // end promise each
+                .then(() => {
+                  resolve();
+                });
+
               });
 
           });
