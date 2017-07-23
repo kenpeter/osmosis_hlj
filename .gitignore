@@ -29,7 +29,7 @@ build/Release
 
 # Dependency directories
 # Hak
-#node_modules
+node_modules
 jspm_packages
 
 # Optional npm cache directory
@@ -40,5 +40,5 @@ jspm_packages
 
 # Hak
 out.txt
-config.js
+#config.js
 imgs
